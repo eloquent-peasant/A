@@ -1,0 +1,6 @@
+@import url('./settings/vars.css');
+
+body {
+  background: var(--black);
+  color: cyan;
+}

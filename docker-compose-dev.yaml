@@ -1,0 +1,32 @@
+version: '3'
+services:
+  nginx:
+    build:
+      context: ./nginx/
+      dockerfile: Dockerfile
+    container_name: nginx
+    links:
+      - node
+    ports:
+      - '3000:80'
+      - '443:443'
+    volumes:
+      - ./client/public:/usr/share/nginx/public
+  webpack:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    container_name: webpack
+    volumes:
+      - ./client/:/app
+      - /app/node_modules
+  node:
+    build:
+      context: ./server/
+      dockerfile: Dockerfile.dev
+    container_name: node
+    env_file:
+      - ./server/source/config/dev.env
+    volumes:
+      - ./server/:/app
+      - /app/node_modules
